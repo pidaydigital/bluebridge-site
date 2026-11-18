@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Button from '../ui/Button.astro';
+import Badge from '../ui/Badge.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
 
 interface Link {
   label: string;
@@ -17,9 +19,15 @@ interface Props {
   /** Optional background image; rendered under a navy overlay. */
   image?: ImageMetadata;
   imageAlt?: string;
+  /** Trail shown above the badges, last item = current page. */
+  breadcrumbs?: { label: string; href?: string }[];
+  /** Small labels above the eyebrow, e.g. project status. */
+  badges?: { label: string; tone: 'highlight' | 'inverse' }[];
+  /** Extra bottom padding so a card (KeyFacts) can overlap the bottom edge. */
+  overlap?: boolean;
 }
 
-const { headline, eyebrow, intro, primary, secondary, image, imageAlt } = Astro.props;
+const { headline, eyebrow, intro, primary, secondary, image, imageAlt, breadcrumbs, badges, overlap = false } = Astro.props;
 
 if (image && imageAlt === undefined) {
   throw new Error('Hero: imageAlt is required when an image is provided (use "" for decorative images).');
@@ -61,8 +69,20 @@ if (image && imageAlt === undefined) {
     )
   }
 
-  <div class="container-site py-20 sm:py-28 lg:py-36">
+  <div class:list={['container-site', overlap ? 'pt-12 pb-24 sm:pt-16 sm:pb-28 lg:pt-20 lg:pb-32' : 'py-20 sm:py-28 lg:py-36']}>
+    {breadcrumbs && breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} tone="dark" class="mb-10" />}
     <div class="max-w-3xl">
+      {
+        badges && badges.length > 0 && (
+          <ul class="mb-5 flex flex-wrap gap-2" role="list">
+            {badges.map((b) => (
+              <li>
+                <Badge tone={b.tone}>{b.label}</Badge>
+              </li>
+            ))}
+          </ul>
+        )
+      }
       {eyebrow && <p class="eyebrow mb-5 text-accent-400">{eyebrow}</p>}
       <h1 class="text-display text-white">{headline}</h1>
       {intro && <p class="mt-6 max-w-2xl text-lead text-navy-100">{intro}</p>}

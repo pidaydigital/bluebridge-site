@@ -13,6 +13,14 @@ import ProjectGrid from '../components/sections/ProjectGrid.astro';
 import ProcessSteps from '../components/sections/ProcessSteps.astro';
 import CTA from '../components/sections/CTA.astro';
 import FAQ from '../components/sections/FAQ.astro';
+import KeyFacts from '../components/sections/KeyFacts.astro';
+import ProjectOverview from '../components/sections/ProjectOverview.astro';
+import BuildingAvailability from '../components/sections/BuildingAvailability.astro';
+import LocationAccess from '../components/sections/LocationAccess.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import FactList from '../components/ui/FactList.astro';
+import { buildingStatus, getProjectLabels, getSortedProjects, paragraphs } from '../lib/projects';
 import logoBlue from '../assets/images/brand/logo-blue.svg';
 import logoWhite from '../assets/images/brand/logo-white.svg';
 import industrial from '../assets/images/placeholders/industrial.jpg';
@@ -20,6 +28,12 @@ import industrial from '../assets/images/placeholders/industrial.jpg';
 const page = (await getEntry('pages', 'styleguide'))!.data;
 const s = page.samples!;
 const site = (await getEntry('settings', 'site'))!.data;
+
+// Project components are shown with the first project's content (src/content/projects).
+const project = (await getSortedProjects())[0];
+const pl = await getProjectLabels();
+const pd = project?.data;
+const pBuildings = pd ? pd.buildings.map((b) => ({ ...b, status: buildingStatus(b.status, pl) })) : [];
 
 // Static class map so Tailwind can see every class used for the type samples.
 const typeClass = {
@@ -228,5 +242,73 @@ const label = 'mb-3 font-mono text-[0.75rem] text-steel-500';
 
     <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">CTA</p>
     {page.cta && <CTA {...page.cta} id="cta" />}
+
+    {
+      pd && (
+        <>
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">
+            Project template components · content from src/content/projects/{project!.id}.yaml
+          </p>
+          <div class="container-site space-y-6 pb-10">
+            <p class="font-mono text-[0.75rem] text-steel-500">Breadcrumbs · FactList · Badge tones navy / brand / neutral / plan / highlight</p>
+            <Breadcrumbs items={[{ label: pl.breadcrumbRoot, href: '#' }, { label: 'Industrial' }, { label: pd.name }]} label="Breadcrumb example" />
+            <div class="max-w-md rounded-lg border border-line bg-surface-alt p-6">
+              <FactList rows={pd.glance.slice(0, 3)} />
+            </div>
+          </div>
+          <p class="container-site pb-3 font-mono text-[0.75rem] text-steel-500">Hero · overlap + KeyFacts</p>
+          <Hero
+            headline={pd.name}
+            eyebrow={`Industrial · ${pd.town}, ${pl.region}`}
+            intro={pd.summary}
+            image={pd.heroImage}
+            imageAlt={pd.heroImageAlt}
+            breadcrumbs={[{ label: pl.breadcrumbRoot, href: '#' }, { label: 'Industrial' }, { label: pd.name }]}
+            badges={[{ label: pl.projectNowLeasing, tone: 'highlight' }, { label: pd.tags[0] ?? '', tone: 'inverse' }]}
+            overlap
+          />
+          <KeyFacts facts={pd.keyFacts} label={pl.keyFacts} />
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">ProjectOverview</p>
+          <ProjectOverview
+            id="sg-overview"
+            eyebrow={pd.overview.eyebrow}
+            heading={pd.overview.heading}
+            lead={pd.overview.lead}
+            paragraphs={paragraphs(pd.overview.body)}
+            glance={{ heading: pl.glanceHeading, rows: pd.glance }}
+            link={{ label: pl.brochure, href: '#' }}
+          />
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">BuildingAvailability</p>
+          <BuildingAvailability
+            id="sg-buildings"
+            eyebrow={pd.availability.eyebrow}
+            heading={pd.availability.heading}
+            intro={pd.availability.intro}
+            sitePlan={pd.availability.sitePlan ? { image: pd.availability.sitePlan, alt: pd.availability.sitePlanAlt, caption: pd.availability.sitePlanCaption } : undefined}
+            buildings={pBuildings}
+            featured={pBuildings.find((b) => b.status.tone === 'brand')}
+            labels={{
+              featuredEyebrow: pl.featuredEyebrow, featuredCta: pl.featuredCta, featuredHref: '#',
+              tableCaption: pl.tableCaption, building: pl.columnBuilding, size: pl.columnSize,
+              clearHeight: pl.columnClearHeight, docks: pl.columnDocks, configuration: pl.columnConfiguration,
+              status: pl.columnStatus, delivery: pl.columnDelivery,
+            }}
+          />
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">LocationAccess · fallback panel (no map image)</p>
+          <LocationAccess
+            id="sg-location"
+            eyebrow={pd.location.eyebrow}
+            heading={pd.location.heading}
+            intro={pd.location.intro}
+            distances={pd.location.distances}
+            place={{ name: pd.name, town: pd.town }}
+          />
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">ProcessSteps · variant cards · background blueprint</p>
+          <ProcessSteps id="sg-role" eyebrow={pd.process.eyebrow} heading={pd.process.heading} intro={pd.process.intro} steps={pd.process.steps} variant="cards" background="blueprint" />
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">Gallery</p>
+          <Gallery id="sg-gallery" eyebrow={pd.gallery.eyebrow} heading={pd.gallery.heading} note={pd.gallery.updated} items={pd.gallery.items} />
+        </>
+      )
+    }
   </div>
 </BaseLayout>

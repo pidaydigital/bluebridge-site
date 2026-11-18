@@ -1,0 +1,20 @@
+---
+/** FactList: label/value rows separated by hairlines (the "At a glance" panel). */
+interface Props {
+  rows: { label: string; value: string }[];
+  class?: string;
+}
+
+const { rows, class: className } = Astro.props;
+---
+
+<dl class:list={['flex flex-col', className]}>
+  {
+    rows.map((row) => (
+      <div class="flex justify-between gap-4 border-t border-line py-3">
+        <dt class="text-small text-muted">{row.label}</dt>
+        <dd class="text-right text-small font-semibold text-ink">{row.value}</dd>
+      </div>
+    ))
+  }
+</dl>

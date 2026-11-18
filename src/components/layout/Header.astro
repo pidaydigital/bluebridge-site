@@ -6,6 +6,10 @@ import Button from '../ui/Button.astro';
 
 const site = (await getEntry('settings', 'site'))!.data;
 const current = Astro.url.pathname;
+const trim = (path: string) => path.replace(/\/$/, '') || '/';
+// A section link (e.g. /projects) also marks its child pages (/projects/<name>) as current.
+const isCurrent = (href: string) =>
+  !href.includes('#') && (trim(href) === trim(current) || (trim(href) !== '/' && trim(current).startsWith(`${trim(href)}/`)));
 ---
 
 <header class="header-scroll sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
@@ -22,7 +26,7 @@ const current = Astro.url.pathname;
             <li>
               <a
                 href={item.href}
-                aria-current={item.href.replace(/\/$/, '') === current.replace(/\/$/, '') ? 'page' : undefined}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
                 class="text-small font-semibold text-steel-700 transition-colors hover:text-blue-600 aria-[current=page]:text-blue-600"
               >
                 {item.label}

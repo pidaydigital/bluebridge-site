@@ -1,5 +1,5 @@
 ---
-type Tone = 'neutral' | 'brand' | 'accent' | 'outline' | 'inverse';
+type Tone = 'neutral' | 'brand' | 'accent' | 'outline' | 'inverse' | 'navy' | 'plan' | 'highlight';
 
 interface Props {
   tone?: Tone;
@@ -14,6 +14,12 @@ const tones: Record<Tone, string> = {
   accent: 'bg-accent-300/40 text-navy-900',
   outline: 'border border-steel-300 text-steel-700',
   inverse: 'bg-white/10 text-white ring-1 ring-inset ring-white/25',
+  /** Building status: leased. */
+  navy: 'bg-navy-900 text-white',
+  /** Building status: build-to-suit pad. */
+  plan: 'border border-navy-400 text-navy-700',
+  /** Project status on navy (hero). */
+  highlight: 'bg-accent-400 text-navy-950',
 };
 ---
 

@@ -5,17 +5,20 @@ interface Props {
   description?: string;
   /** `light` for white/grey backgrounds, `dark` for navy sections. */
   tone?: 'light' | 'dark';
+  /** `lg` for headline figures, `md` for fact lists, `sm` inside cards. */
+  size?: 'lg' | 'md' | 'sm';
   class?: string;
 }
 
-const { value, label, description, tone = 'light', class: className } = Astro.props;
+const { value, label, description, tone = 'light', size = 'lg', class: className } = Astro.props;
 const dark = tone === 'dark';
+const valueSize = { lg: 'text-stat', md: 'text-h3', sm: 'text-h4' }[size];
 ---
 
-<div class:list={['border-l-2 pl-5', dark ? 'border-accent-400' : 'border-blue-600', className]}>
-  <dl class="flex flex-col-reverse gap-2">
+<div class:list={['border-l-2', size === 'lg' ? 'pl-5' : 'pl-4', dark ? 'border-accent-400' : 'border-blue-600', className]}>
+  <dl class:list={['flex flex-col-reverse', size === 'lg' ? 'gap-2' : 'gap-1']}>
     <dt class:list={['eyebrow', dark ? 'text-navy-100' : 'text-steel-600']}>{label}</dt>
-    <dd class:list={['font-display text-stat font-bold', dark ? 'text-white' : 'text-navy-700']}>{value}</dd>
+    <dd class:list={['font-display font-bold', valueSize, dark ? 'text-white' : 'text-navy-700']}>{value}</dd>
   </dl>
   {description && <p class:list={['mt-3 text-small', dark ? 'text-navy-100' : 'text-muted']}>{description}</p>}
 </div>

@@ -12,6 +12,8 @@ site:
   nav:
     - label: What We Do
       href: /#what-we-do
+    - label: Projects
+      href: /projects
     - label: Contact
       href: /#contact
     - label: Styleguide
@@ -19,6 +21,9 @@ site:
   headerCta:
     label: Contact Us
     href: /#contact
+  # Buttons in a project page's closing call to action.
+  ctaEmailLabel: Email us
+  ctaCallPrefix: Call
   footerBlurb: A vertically integrated real estate development and investment company working with landowners, municipalities and capital partners to deliver first-class developments.
   footerLinksHeading: Company
   footerContactHeading: Get in touch

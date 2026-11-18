@@ -1,0 +1,41 @@
+title: Projects
+description: >-
+  Industrial, residential and renewable energy developments by Blue Bridge
+  Development across South Carolina.
+hero:
+  eyebrow: Our projects
+  headline: Developments across South Carolina
+  intro: >-
+    Industrial parks, workforce housing and renewable energy projects, developed
+    and built by one in-house team.
+projectLabels:
+  breadcrumbRoot: Projects
+  keyFacts: Project facts
+  glanceHeading: At a glance
+  brochure: Download the brochure (PDF)
+  featuredEyebrow: Available now
+  featuredCta: Schedule a tour
+  tableCaption: Building specifications
+  columnBuilding: Building
+  columnSize: Size
+  columnClearHeight: Clear height
+  columnDocks: Dock doors
+  columnConfiguration: Configuration
+  columnStatus: Status
+  columnDelivery: Delivery
+  statusLeased: Leased
+  statusAvailable: Available
+  statusUnderConstruction: Under construction
+  statusBuildToSuit: Reserve a pad
+  projectPlanning: Planning
+  projectInDevelopment: In development
+  projectUnderConstruction: Under construction
+  projectNowLeasing: Now leasing
+  projectCompleted: Completed
+  projectSoldOut: Sold out
+  mapLink: Open in Google Maps
+  stepPrefix: Step
+  relatedHeading: More projects
+  allProjects: All projects
+  empty: Projects will be listed here soon.
+  region: South Carolina

@@ -18,10 +18,14 @@ Astro 7 + TypeScript (strict) + Tailwind CSS 4, deployed to Vercel via `@astrojs
 - `src/components/seo/` — `SEO.astro` (title, description, canonical, Open Graph, Twitter) and
   `Schema.astro` (JSON-LD; builders in `src/lib/schema.ts`)
 - `src/components/layout/` — `Header.astro` and `Footer.astro` (rendered by BaseLayout)
+- `src/pages/projects/` — `/projects` index and `[slug].astro`, the project detail template (one page per
+  entry in `src/content/projects/`; helpers in `src/lib/projects.ts`)
 - `src/layouts/BaseLayout.astro` — the shared HTML shell; renders the SEO component
 - `src/actions/` — Astro Actions (server-side form handling, etc.)
 - `src/pages/` — routes
 - `src/assets/images/` — images processed by Astro (use these, not `public/`, for content images)
+- `keystatic.config.ts` — the Keystatic editor's fields. It must stay in step with the matching schemas in
+  `src/content.config.ts` (projects, and `pages/projects.yaml` with its `projectLabels`). See KEYSTATIC.md.
 
 ## Design system
 
@@ -32,7 +36,8 @@ Astro 7 + TypeScript (strict) + Tailwind CSS 4, deployed to Vercel via `@astrojs
 - Type scale: `text-display`, `text-h1`–`text-h4`, `text-lead`, `text-body`, `text-small`, `eyebrow`, `text-stat`.
   Use these rather than arbitrary sizes. Layout helpers: `container-site`, `section`.
 - Build with the existing components (`ui/`: Button, Card, Stat, Badge, SectionHeading; `sections/`: Hero,
-  StatBand, ProjectGrid, ProcessSteps, CTA, FAQ) before creating new ones. Add any new component to `/styleguide`.
+  StatBand, ProjectGrid, ProcessSteps, CTA, FAQ, plus the project sections KeyFacts, ProjectOverview,
+  BuildingAvailability, LocationAccess and Gallery) before creating new ones. Add any new component to `/styleguide`.
 - Design mobile-first: base styles target phones, then layer `sm:`/`md:`/`lg:` overrides.
 - `/styleguide` is an internal review page: `noindex` and excluded from the sitemap.
 
@@ -50,5 +55,7 @@ Astro 7 + TypeScript (strict) + Tailwind CSS 4, deployed to Vercel via `@astrojs
    Use `alt=""` only for purely decorative images.
 5. **No client-side JavaScript unless needed.** Prefer plain Astro components and CSS. Only add
    `<script>` tags or `client:*` directives when interactivity truly requires it, and use the narrowest
-   hydration directive (`client:visible` / `client:idle` over `client:load`).
+   hydration directive (`client:visible` / `client:idle` over `client:load`). The one exception is the
+   Keystatic editor at `/keystatic` (React), which only exists in `astro dev` or when
+   `PUBLIC_KEYSTATIC_STORAGE=github` is set; it never ships to public pages.
 6. **Run `npm run build` before every commit.** It must pass (type-check + build) — don't commit a broken build.

@@ -1,0 +1,203 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import KeyFacts from '../../components/sections/KeyFacts.astro';
+import ProjectOverview from '../../components/sections/ProjectOverview.astro';
+import BuildingAvailability from '../../components/sections/BuildingAvailability.astro';
+import LocationAccess from '../../components/sections/LocationAccess.astro';
+import ProcessSteps from '../../components/sections/ProcessSteps.astro';
+import Gallery from '../../components/sections/Gallery.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import ProjectGrid from '../../components/sections/ProjectGrid.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+import {
+  buildingStatus,
+  getProjectLabels,
+  getSortedProjects,
+  paragraphs,
+  projectStatusLabel,
+  relatedProjects,
+  sectorTitles,
+  type Project,
+} from '../../lib/projects';
+
+export async function getStaticPaths() {
+  const projects = await getSortedProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project, all: projects } }));
+}
+
+interface Props {
+  project: Project;
+  all: Project[];
+}
+
+const { project, all } = Astro.props;
+const p = project.data;
+const labels = await getProjectLabels();
+const sectors = await sectorTitles();
+const site = (await getEntry('settings', 'site'))!.data;
+const sector = sectors[p.sector] ?? p.sector;
+const status = projectStatusLabel(p.status, labels);
+
+const crumbs = [
+  { label: labels.breadcrumbRoot, href: '/projects' },
+  { label: sector },
+  { label: p.name },
+];
+
+const buildings = p.buildings.map((b) => ({ ...b, status: buildingStatus(b.status, labels) }));
+// The dark card shows the building marked "featured", else the first available one.
+let featuredIndex = p.buildings.findIndex((b) => b.featured);
+if (featuredIndex === -1) featuredIndex = p.buildings.findIndex((b) => b.status === 'available');
+const featured = featuredIndex >= 0 ? buildings[featuredIndex] : undefined;
+
+const related = relatedProjects(project, all).map((r) => ({
+  title: r.data.name,
+  summary: r.data.summary,
+  image: r.data.heroImage,
+  imageAlt: r.data.heroImageAlt,
+  sector: sectors[r.data.sector] ?? r.data.sector,
+  location: `${r.data.town}, ${labels.region}`,
+  status: projectStatusLabel(r.data.status, labels),
+  href: `/projects/${r.id}`,
+}));
+
+const schema = [
+  breadcrumbSchema(
+    [
+      { name: labels.breadcrumbRoot, path: '/projects' },
+      { name: p.name, path: `/projects/${project.id}` },
+    ],
+    Astro.site!,
+  ),
+];
+---
+
+<BaseLayout
+  title={p.seo.title || p.name}
+  description={p.seo.description || p.summary}
+  image={p.heroImage}
+  imageAlt={p.heroImageAlt}
+  schema={schema}
+>
+  <Hero
+    headline={p.name}
+    eyebrow={`${sector} · ${p.town}, ${labels.region}`}
+    intro={p.summary}
+    image={p.heroImage}
+    imageAlt={p.heroImageAlt}
+    breadcrumbs={crumbs}
+    badges={[{ label: status, tone: 'highlight' }, ...p.tags.map((t) => ({ label: t, tone: 'inverse' as const }))]}
+    primary={p.hero.primaryLabel ? { label: p.hero.primaryLabel, href: '#contact' } : undefined}
+    secondary={p.hero.secondaryLabel && buildings.length > 0 ? { label: p.hero.secondaryLabel, href: '#buildings' } : undefined}
+    overlap={p.keyFacts.length > 0}
+  />
+
+  {p.keyFacts.length > 0 && <KeyFacts facts={p.keyFacts} label={labels.keyFacts} />}
+
+  <ProjectOverview
+    id="overview"
+    eyebrow={p.overview.eyebrow}
+    heading={p.overview.heading}
+    lead={p.overview.lead}
+    paragraphs={paragraphs(p.overview.body)}
+    glance={{ heading: labels.glanceHeading, rows: p.glance }}
+    link={p.brochure ? { label: labels.brochure, href: p.brochure } : undefined}
+  />
+
+  {
+    (buildings.length > 0 || p.availability.sitePlan) && (
+      <BuildingAvailability
+        id="buildings"
+        eyebrow={p.availability.eyebrow}
+        heading={p.availability.heading}
+        intro={p.availability.intro}
+        sitePlan={
+          p.availability.sitePlan
+            ? { image: p.availability.sitePlan, alt: p.availability.sitePlanAlt, caption: p.availability.sitePlanCaption }
+            : undefined
+        }
+        buildings={buildings}
+        featured={featured}
+        labels={{
+          featuredEyebrow: labels.featuredEyebrow,
+          featuredCta: labels.featuredCta,
+          featuredHref: '#contact',
+          tableCaption: labels.tableCaption,
+          building: labels.columnBuilding,
+          size: labels.columnSize,
+          clearHeight: labels.columnClearHeight,
+          docks: labels.columnDocks,
+          configuration: labels.columnConfiguration,
+          status: labels.columnStatus,
+          delivery: labels.columnDelivery,
+        }}
+      />
+    )
+  }
+
+  <LocationAccess
+    id="location"
+    eyebrow={p.location.eyebrow}
+    heading={p.location.heading}
+    intro={p.location.intro}
+    distances={p.location.distances}
+    map={p.location.mapImage ? { image: p.location.mapImage, alt: p.location.mapImageAlt } : undefined}
+    place={{ name: p.name, town: p.town }}
+    mapLink={p.location.mapLink ? { label: labels.mapLink, href: p.location.mapLink } : undefined}
+  />
+
+  {
+    p.process.steps.length > 0 && (
+      <ProcessSteps
+        id="our-role"
+        eyebrow={p.process.eyebrow}
+        heading={p.process.heading}
+        intro={p.process.intro}
+        steps={p.process.steps}
+        variant="cards"
+        background={p.process.background === 'blueprint' ? 'blueprint' : 'alt'}
+        stepPrefix={labels.stepPrefix}
+      />
+    )
+  }
+
+  {
+    p.gallery.items.length > 0 && (
+      <Gallery id="gallery" eyebrow={p.gallery.eyebrow} heading={p.gallery.heading} note={p.gallery.updated} items={p.gallery.items} />
+    )
+  }
+
+  {
+    p.faq.items.length > 0 && (
+      <FAQ id="faq" eyebrow={p.faq.eyebrow} heading={p.faq.heading} items={p.faq.items} withSchema openFirst />
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <ProjectGrid
+        id="related"
+        heading={labels.relatedHeading}
+        items={related}
+        background="white"
+        action={{ label: labels.allProjects, href: '/projects' }}
+      />
+    )
+  }
+
+  {
+    p.cta.headline && (
+      <CTA
+        id="contact"
+        eyebrow={p.cta.eyebrow}
+        headline={p.cta.headline}
+        body={p.cta.body}
+        primary={{ label: site.ctaEmailLabel, href: `mailto:${site.email}` }}
+        secondary={{ label: `${site.ctaCallPrefix} ${site.phone}`, href: site.phoneHref }}
+      />
+    )
+  }
+</BaseLayout>

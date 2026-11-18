@@ -49,19 +49,119 @@ const sectionIntro = {
 
 /* ---------- Collections ---------- */
 
+/**
+ * Projects: one YAML file per project, edited in Keystatic (keystatic.config.ts mirrors these fields).
+ * Keystatic writes empty text fields as "" and leaves out empty images, so text is `.default('')`
+ * and images are optional except the hero.
+ */
+const text = () => z.string().default('');
+const labelValue = z.object({ label: z.string(), value: z.string() });
+
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
-      title: z.string(),
+      name: z.string(),
+      town: z.string(),
+      sector: z.enum(['industrial', 'residential', 'renewable-energy']),
+      status: z.enum(['planning', 'in-development', 'under-construction', 'now-leasing', 'completed', 'sold-out']),
+      tags: z.array(z.string()).default([]),
+      order: z.number().nullable().default(0),
       summary: z.string(),
-      sector: z.string().optional(),
-      location: z.string().optional(),
-      status: z.string().optional(),
-      image: image().optional(),
-      imageAlt: z.string().optional(),
-      featured: z.boolean().default(false),
+      heroImage: image(),
+      heroImageAlt: z.string(),
+      hero: z.object({ primaryLabel: text(), secondaryLabel: text() }).default({ primaryLabel: '', secondaryLabel: '' }),
+      keyFacts: z.array(labelValue).default([]),
+      overview: z.object({ eyebrow: text(), heading: z.string(), lead: text(), body: text() }),
+      glance: z.array(labelValue).default([]),
+      brochure: z.string().nullable().optional(),
+      availability: z.object({
+        eyebrow: text(),
+        heading: z.string(),
+        intro: text(),
+        sitePlan: image().nullable().optional(),
+        sitePlanAlt: text(),
+        sitePlanCaption: text(),
+      }),
+      buildings: z
+        .array(
+          z.object({
+            name: z.string(),
+            size: text(),
+            clearHeight: text(),
+            docks: text(),
+            configuration: text(),
+            status: z.enum(['leased', 'available', 'under-construction', 'build-to-suit']),
+            featured: z.boolean().default(false),
+            summary: text(),
+            delivery: text(),
+          }),
+        )
+        .default([]),
+      location: z.object({
+        eyebrow: text(),
+        heading: z.string(),
+        intro: text(),
+        distances: z.array(labelValue).default([]),
+        mapImage: image().nullable().optional(),
+        mapImageAlt: text(),
+        mapLink: z.string().nullable().optional(),
+      }),
+      process: z.object({
+        eyebrow: text(),
+        heading: z.string(),
+        intro: text(),
+        background: z.enum(['blueprint', 'plain']).default('blueprint'),
+        steps: z.array(z.object({ title: z.string(), body: text() })).default([]),
+      }),
+      gallery: z.object({
+        eyebrow: text(),
+        heading: text(),
+        updated: text(),
+        items: z.array(z.object({ image: image(), alt: z.string(), caption: text() })).default([]),
+      }),
+      faq: z.object({
+        eyebrow: text(),
+        heading: text(),
+        items: z.array(z.object({ question: z.string(), answer: z.string() })).default([]),
+      }),
+      cta: z.object({ eyebrow: text(), headline: text(), body: text() }),
+      seo: z.object({ title: text(), description: text() }).default({ title: '', description: '' }),
     }),
+});
+
+/** Labels shared by every project page (Keystatic singleton "Projects page and labels"). */
+const projectLabels = z.object({
+  breadcrumbRoot: z.string(),
+  keyFacts: z.string(),
+  glanceHeading: z.string(),
+  brochure: z.string(),
+  featuredEyebrow: z.string(),
+  featuredCta: z.string(),
+  tableCaption: z.string(),
+  columnBuilding: z.string(),
+  columnSize: z.string(),
+  columnClearHeight: z.string(),
+  columnDocks: z.string(),
+  columnConfiguration: z.string(),
+  columnStatus: z.string(),
+  columnDelivery: z.string(),
+  statusLeased: z.string(),
+  statusAvailable: z.string(),
+  statusUnderConstruction: z.string(),
+  statusBuildToSuit: z.string(),
+  projectPlanning: z.string(),
+  projectInDevelopment: z.string(),
+  projectUnderConstruction: z.string(),
+  projectNowLeasing: z.string(),
+  projectCompleted: z.string(),
+  projectSoldOut: z.string(),
+  mapLink: z.string(),
+  stepPrefix: z.string(),
+  relatedHeading: z.string(),
+  allProjects: z.string(),
+  empty: z.string(),
+  region: z.string(),
 });
 
 const sectors = defineCollection({
@@ -115,6 +215,8 @@ const settings = defineCollection({
     logoAlt: z.string(),
     nav: z.array(link),
     headerCta: link,
+    ctaEmailLabel: z.string(),
+    ctaCallPrefix: z.string(),
     footerBlurb: z.string(),
     footerLinksHeading: z.string(),
     footerContactHeading: z.string(),
@@ -154,13 +256,15 @@ const pages = defineCollection({
       process: z.object({ ...sectionIntro, steps: z.array(step) }).optional(),
       faq: z.object({ ...sectionIntro, items: z.array(faqItem) }).optional(),
       cta: cta.optional(),
+      /** Shared project-page labels; only on pages/projects.yaml. */
+      projectLabels: projectLabels.optional(),
       /** Free-form sample copy used only by the /styleguide page. */
       samples: z
         .object({
           intro: z.string(),
           sections: z.record(z.string(), z.string()),
           buttons: z.record(z.string(), z.string()),
-          badges: z.array(z.object({ label: z.string(), tone: z.enum(['neutral', 'brand', 'accent', 'outline', 'inverse']) })),
+          badges: z.array(z.object({ label: z.string(), tone: z.enum(['neutral', 'brand', 'accent', 'outline', 'inverse', 'navy', 'plan', 'highlight']) })),
           stats: z.array(stat),
           cards: z.array(
             z.object({

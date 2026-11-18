@@ -1,0 +1,48 @@
+---
+import Schema from '../seo/Schema.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+interface Props {
+  /** Last item is the current page and is not linked. */
+  items: { label: string; href?: string }[];
+  tone?: 'light' | 'dark';
+  /** Emit BreadcrumbList JSON-LD for the trail (items with an href, plus the current page). */
+  withSchema?: boolean;
+  /** Accessible name for the nav landmark. */
+  label?: string;
+  class?: string;
+}
+
+const { items, tone = 'light', withSchema = false, label = 'Breadcrumb', class: className } = Astro.props;
+const dark = tone === 'dark';
+const siteUrl = Astro.site!;
+const schema = breadcrumbSchema(
+  items.map((item) => ({ name: item.label, path: item.href ?? Astro.url.pathname })),
+  siteUrl,
+);
+---
+
+<nav aria-label={label} class={className}>
+  <ol class:list={['flex flex-wrap items-center gap-2 text-small', dark ? 'text-navy-200' : 'text-steel-600']} role="list">
+    {
+      items.map((item, i) => {
+        const last = i === items.length - 1;
+        return (
+          <>
+            <li aria-current={last ? 'page' : undefined} class:list={[last && (dark ? 'text-white' : 'text-ink')]}>
+              {item.href && !last ? (
+                <a href={item.href} class:list={['underline-offset-4 hover:underline', dark ? 'text-navy-100 hover:text-white' : 'text-blue-600']}>
+                  {item.label}
+                </a>
+              ) : (
+                item.label
+              )}
+            </li>
+            {!last && <li aria-hidden="true">/</li>}
+          </>
+        );
+      })
+    }
+  </ol>
+  {withSchema && <Schema data={schema} />}
+</nav>

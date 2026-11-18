@@ -115,6 +115,12 @@ samples:
       tone: outline
     - label: On dark
       tone: inverse
+    - label: Leased
+      tone: navy
+    - label: Reserve a pad
+      tone: plan
+    - label: Now leasing
+      tone: highlight
   stats:
     - value: "1.2M"
       label: Sq ft in development

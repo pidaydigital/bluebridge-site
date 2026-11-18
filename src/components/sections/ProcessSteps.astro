@@ -7,27 +7,99 @@ interface Props {
   eyebrow?: string;
   intro?: string;
   id?: string;
+  /** `rules`: numbered columns under a navy rule. `cards`: white cards (use over a background). */
+  variant?: 'rules' | 'cards';
+  /** `blueprint` adds the blueprint grid and bridge line drawing behind the section. */
+  background?: 'white' | 'alt' | 'blueprint';
+  /** Screen-reader prefix before each step title. */
+  stepPrefix?: string;
 }
 
-const { heading, steps, eyebrow, intro, id } = Astro.props;
+const {
+  heading,
+  steps,
+  eyebrow,
+  intro,
+  id,
+  variant = 'rules',
+  background = 'white',
+  stepPrefix = 'Step',
+} = Astro.props;
 const headingId = id ? `${id}-heading` : undefined;
+const blueprint = background === 'blueprint';
+const pid = `${id ?? 'process'}-blueprint`;
+// Bridge hangers: x position and where each meets the main cable (from the design).
+const hangers = [
+  [80, 214], [160, 166], [240, 138], [320, 122], [400, 117], [480, 122], [560, 138], [640, 166], [720, 214],
+].map(([x, y]) => ({ x, y }));
 ---
 
-<section id={id} class="section bg-white" aria-labelledby={headingId}>
-  <div class="container-site">
+<section
+  id={id}
+  aria-labelledby={headingId}
+  class:list={[
+    'section relative isolate overflow-hidden',
+    background === 'white' ? 'bg-white' : 'border-y border-line bg-surface-alt',
+  ]}
+>
+  {
+    blueprint && (
+      <>
+        <svg aria-hidden="true" class="absolute inset-0 -z-10 h-full w-full">
+          <defs>
+            <pattern id={`${pid}-minor`} width="24" height="24" patternUnits="userSpaceOnUse">
+              <path d="M24 0H0V24" fill="none" class="stroke-navy-200" stroke-width="0.5" opacity="0.55" />
+            </pattern>
+            <pattern id={`${pid}-major`} width="120" height="120" patternUnits="userSpaceOnUse">
+              <rect width="120" height="120" fill={`url(#${pid}-minor)`} />
+              <path d="M120 0H0V120" fill="none" class="stroke-navy-200" stroke-width="1" opacity="0.7" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill={`url(#${pid}-major)`} />
+        </svg>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 800 360"
+          fill="none"
+          preserveAspectRatio="xMaxYMin meet"
+          class="absolute top-0 right-0 -z-10 h-auto w-[min(62%,54rem)] opacity-50 max-sm:w-full"
+        >
+          <path d="M0 300 C 200 80, 600 80, 800 300" class="stroke-navy-400" stroke-width="2" />
+          <path d="M0 330 C 200 110, 600 110, 800 330" class="stroke-navy-300" stroke-width="1" />
+          {hangers.map((h) => <path d={`M${h.x} ${h.y}V360`} class="stroke-navy-300" stroke-width="1" />)}
+          <line x1="0" y1="358" x2="800" y2="358" class="stroke-navy-400" stroke-width="2" />
+          <circle cx="400" cy="117" r="5" class="fill-steel-50 stroke-blue-600" stroke-width="2" />
+          <path d="M408 117 H560" class="stroke-blue-600" stroke-width="1" stroke-dasharray="4 4" />
+        </svg>
+      </>
+    )
+  }
+  <div class="container-site relative">
     <SectionHeading heading={heading} eyebrow={eyebrow} intro={intro} id={headingId} />
-    <ol class="mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8" role="list">
+    <ol
+      class:list={[
+        'mt-12 grid md:grid-cols-2 lg:grid-cols-4',
+        variant === 'cards' ? 'gap-6' : 'gap-10 lg:gap-8',
+      ]}
+      role="list"
+    >
       {
         steps.map((step, i) => (
-          <li class="relative border-t-2 border-navy-700 pt-6">
+          <li
+            class:list={[
+              variant === 'cards'
+                ? 'rounded-lg border border-line bg-white p-7 shadow-card'
+                : 'relative border-t-2 border-navy-700 pt-6',
+            ]}
+          >
             <span class="font-display text-h3 font-bold text-blue-600" aria-hidden="true">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <h3 class="mt-3 text-h4 text-navy-900">
-              <span class="sr-only">Step {i + 1}: </span>
+            <h3 class:list={['text-h4 text-navy-900', variant === 'cards' ? 'mt-4' : 'mt-3']}>
+              <span class="sr-only">{stepPrefix} {i + 1}: </span>
               {step.title}
             </h3>
-            <p class="mt-3 text-muted">{step.body}</p>
+            {step.body && <p class="mt-3 text-muted">{step.body}</p>}
           </li>
         ))
       }

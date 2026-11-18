@@ -1,0 +1,32 @@
+---
+/**
+ * KeyFacts: a white card of headline facts that overlaps the bottom of the Hero above it.
+ * Pair with <Hero overlap />. Two columns on phones, then as many as fit.
+ */
+interface Props {
+  facts: { label: string; value: string }[];
+  /** Accessible name for the section. */
+  label: string;
+  /** Pull the card up over the previous section. */
+  overlap?: boolean;
+}
+
+const { facts, label, overlap = true } = Astro.props;
+---
+
+<section aria-label={label} class:list={['relative z-10', overlap && '-mt-14']}>
+  <div class="container-site">
+    <dl
+      class="grid grid-cols-2 overflow-hidden max-sm:[&>*:last-child:nth-child(odd)]:col-span-2 rounded-lg border border-line bg-white shadow-card sm:grid-cols-3 lg:grid-cols-[repeat(auto-fit,minmax(10.5rem,1fr))]"
+    >
+      {
+        facts.map((fact) => (
+          <div class="-mb-px -mr-px flex flex-col-reverse gap-1.5 border-r border-b border-steel-100 px-5 py-5 sm:px-7 sm:py-6">
+            <dt class="eyebrow text-steel-600">{fact.label}</dt>
+            <dd class="font-display text-h4 font-bold text-navy-700 sm:text-h3">{fact.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

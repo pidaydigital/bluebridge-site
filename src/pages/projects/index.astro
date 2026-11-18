@@ -1,0 +1,26 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import ProjectGrid from '../../components/sections/ProjectGrid.astro';
+import { getProjectLabels, getSortedProjects, projectStatusLabel, sectorTitles } from '../../lib/projects';
+
+const page = (await getEntry('pages', 'projects'))!.data;
+const labels = await getProjectLabels();
+const sectors = await sectorTitles();
+const items = (await getSortedProjects()).map((r) => ({
+  title: r.data.name,
+  summary: r.data.summary,
+  image: r.data.heroImage,
+  imageAlt: r.data.heroImageAlt,
+  sector: sectors[r.data.sector] ?? r.data.sector,
+  location: `${r.data.town}, ${labels.region}`,
+  status: projectStatusLabel(r.data.status, labels),
+  href: `/projects/${r.id}`,
+}));
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  {page.hero && <Hero {...page.hero} />}
+  <ProjectGrid id="projects" heading={labels.allProjects} items={items} empty={labels.empty} />
+</BaseLayout>

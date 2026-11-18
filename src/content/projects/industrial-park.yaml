@@ -1,0 +1,185 @@
+name: '[Project name] Industrial Park'
+town: '[Town]'
+sector: industrial
+status: now-leasing
+tags:
+  - Build-to-suit available
+order: 0
+summary: >-
+  A [##]-acre, shovel-ready industrial park off [Interstate / highway] in
+  [County] County, with Class A warehouse and flex buildings from [##,###] to
+  [###,###] square feet, delivered by our in-house general contractor.
+heroImage: ../../assets/images/projects/industrial-park/heroImage.jpg
+heroImageAlt: >-
+  Placeholder illustration of an industrial warehouse; replace with an aerial
+  photo of the park
+hero:
+  primaryLabel: Request the site package
+  secondaryLabel: See available buildings
+keyFacts:
+  - label: Total site
+    value: '[##] acres'
+  - label: Planned buildings
+    value: '[#] buildings'
+  - label: Total square feet
+    value: '[###,###] SF'
+  - label: Zoning
+    value: '[I-1]'
+  - label: First delivery
+    value: '[Q# 20##]'
+overview:
+  eyebrow: The project
+  heading: Industrial space where [Town] needs it, ready when you are
+  lead: >-
+    [Project name] gives manufacturers, distributors and suppliers a fully
+    entitled place to grow in the Upstate, with utilities at the pad and a team
+    that can take a building from site plan to certificate of occupancy.
+  body: >-
+    [Two to three sentences on the story: how the land came to us, who we worked
+    with locally, and what the park means for jobs and the tax base in [County]
+    County. Keep it specific and factual.]
+
+
+    Because we develop and build in-house, one team owns the schedule, the
+    budget and the details. That keeps decisions fast and lets us offer
+    speculative buildings and build-to-suit options on the same site.
+glance:
+  - label: Address
+    value: '[Street], [Town], SC'
+  - label: Asset class
+    value: Industrial · warehouse and flex
+  - label: Building sizes
+    value: '[##,###] – [###,###] SF'
+  - label: Utilities
+    value: Water, sewer, power, gas at pad
+  - label: Our role
+    value: Developer and general contractor
+  - label: Status
+    value: Phase 1 under construction
+availability:
+  eyebrow: Site plan and availability
+  heading: Buildings and pads
+  intro: >-
+    Lease a building in Phase 1 or reserve a pad and we will design and build to
+    your specification.
+  sitePlan: ../../assets/images/projects/industrial-park/availability/sitePlan.png
+  sitePlanAlt: >-
+    Placeholder site plan: four building lots along a central park road, with
+    two build-to-suit pads at the rear
+  sitePlanCaption: Illustrative only. Final plan to come.
+buildings:
+  - name: Building 1
+    size: '[###,###] SF'
+    clearHeight: '[##]′'
+    docks: '[##]'
+    configuration: Cross-dock
+    status: leased
+    featured: false
+  - name: Building 2
+    size: '[###,###] SF'
+    clearHeight: '[##]′'
+    docks: '[##]'
+    configuration: Rear-load
+    status: available
+    featured: true
+    summary: >-
+      Rear-load warehouse with expansion land, suited to distribution or light
+      manufacturing.
+    delivery: '[Q# 20##]'
+  - name: Building 3
+    size: '[##,###] SF'
+    clearHeight: '[##]′'
+    docks: '[##]'
+    configuration: Flex / light industrial
+    status: available
+    featured: false
+  - name: Building 4
+    size: '[###,###] SF'
+    clearHeight: '[##]′'
+    docks: '[##]'
+    configuration: Rear-load
+    status: under-construction
+    featured: false
+  - name: Pads A–B
+    size: Up to [###,###] SF
+    clearHeight: To suit
+    docks: To suit
+    configuration: Build-to-suit
+    status: build-to-suit
+    featured: false
+location:
+  eyebrow: Location and access
+  heading: Connected to the I-85 corridor
+  intro: >-
+    [One sentence on why this location works: labor shed, logistics, nearby
+    employers.]
+  distances:
+    - label: to Interstate 85
+      value: '[#] mi'
+    - label: to Inland Port Greer
+      value: '[##] mi'
+    - label: to Greenville-Spartanburg Airport
+      value: '[##] mi'
+    - label: to Port of Charleston
+      value: '[###] mi'
+process:
+  eyebrow: Our role
+  heading: One team from raw land to move-in
+  intro: >-
+    We acted as developer and general contractor on [Project name], so every
+    phase stayed under one roof.
+  background: blueprint
+  steps:
+    - title: Land and entitlement
+      body: >-
+        [How the site was assembled, rezoned and approved with [County] and
+        local partners.]
+    - title: Site development
+      body: >-
+        [Grading, roads and utilities extended to each pad so buildings can
+        start fast.]
+    - title: Design-build
+      body: >-
+        Our licensed in-house general contractor designs and builds each
+        building, spec or to suit.
+    - title: Delivery and leasing
+      body: '[Turnover, tenant improvements and ongoing ownership or disposition.]'
+gallery:
+  eyebrow: Progress
+  heading: On the ground
+  updated: Updated [Month 20##]
+  items:
+    - image: ../../assets/images/projects/industrial-park/gallery/items/0/image.jpg
+      alt: 'Placeholder: aerial view of the park'
+      caption: '[Caption: aerial view looking [direction], Phase 1 buildings at left.]'
+    - image: ../../assets/images/projects/industrial-park/gallery/items/1/image.jpg
+      alt: 'Placeholder: Building 1 exterior'
+      caption: '[Caption]'
+    - image: ../../assets/images/projects/industrial-park/gallery/items/2/image.jpg
+      alt: 'Placeholder: dock doors and truck court'
+      caption: '[Caption]'
+    - image: ../../assets/images/projects/industrial-park/gallery/items/3/image.jpg
+      alt: 'Placeholder: steel going up on Building 4'
+      caption: '[Caption]'
+faq:
+  eyebrow: Questions
+  heading: About [Project name]
+  items:
+    - question: Can Blue Bridge build a facility to my specifications?
+      answer: >-
+        Yes. Pads A and B are reserved for build-to-suit projects up to
+        [###,###] square feet. Our in-house general contractor handles design
+        and construction.
+    - question: What utilities are available on site?
+      answer: '[Providers and capacities for water, sewer, power and natural gas.]'
+    - question: Are incentives available for new tenants?
+      answer: '[Summary of available county and state incentives, and who to contact.]'
+    - question: When can I move in?
+      answer: '[Delivery dates by building and typical build-to-suit timeline.]'
+cta:
+  eyebrow: Leasing and build-to-suit
+  headline: Looking for industrial space in the Upstate?
+  body: >-
+    Tell us what you need and we will send the site package, current
+    availability and a build-to-suit timeline.
+seo: {}
