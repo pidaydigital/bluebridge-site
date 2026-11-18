@@ -1,0 +1,69 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getEntry } from 'astro:content';
+import SEO from '../components/seo/SEO.astro';
+import Schema from '../components/seo/Schema.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import logo from '../assets/images/brand/logo-blue.svg';
+import { organizationSchema, websiteSchema } from '../lib/schema';
+import '../styles/global.css';
+
+interface Props {
+  /** Page title; the site name is appended. Omit on the home page. */
+  title?: string;
+  description?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  canonical?: string;
+  noindex?: boolean;
+  /** Extra page-specific JSON-LD (Organization + WebSite are always included). */
+  schema?: Record<string, unknown>[];
+}
+
+const siteEntry = await getEntry('settings', 'site');
+if (!siteEntry) throw new Error('Missing "site" entry in src/content/settings.yaml');
+const site = siteEntry.data;
+
+const { title, description = site.description, image, imageAlt, canonical, noindex = false, schema = [] } = Astro.props;
+const fullTitle = title ? `${title} | ${site.siteName}` : `${site.siteName} | ${site.tagline}`;
+const siteUrl = Astro.site!;
+const jsonLd = [organizationSchema(site, siteUrl, logo.src), websiteSchema(site, siteUrl), ...schema];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a2366" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={fullTitle}
+      description={description}
+      siteName={site.siteName}
+      image={image}
+      imageAlt={imageAlt}
+      canonical={canonical}
+      noindex={noindex}
+    />
+    <Schema data={jsonLd} />
+  </head>
+  <body class="flex min-h-screen flex-col antialiased">
+    <a
+      href="#main"
+      class="sr-only z-[100] rounded-md bg-blue-600 px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+    >
+      {site.skipLinkLabel}
+    </a>
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

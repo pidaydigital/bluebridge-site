@@ -1,0 +1,72 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Variant = 'primary' | 'secondary' | 'ghost' | 'inverse' | 'outline-inverse';
+type Size = 'sm' | 'md' | 'lg';
+
+interface Props {
+  /** Renders an <a> when set, otherwise a <button>. */
+  href?: string;
+  variant?: Variant;
+  size?: Size;
+  type?: 'button' | 'submit' | 'reset';
+  /** Shows a trailing arrow. */
+  arrow?: boolean;
+  class?: string;
+  target?: HTMLAttributes<'a'>['target'];
+  rel?: string;
+  'aria-label'?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  arrow = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const base =
+  'group inline-flex items-center justify-center gap-2 rounded-md font-sans font-semibold whitespace-nowrap transition-colors duration-150 focus-visible:outline-3 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50';
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 focus-visible:outline-blue-500',
+  secondary:
+    'border border-navy-700 text-navy-700 bg-transparent hover:bg-navy-700 hover:text-white focus-visible:outline-blue-500',
+  ghost: 'text-blue-600 hover:text-blue-800 underline-offset-4 hover:underline px-0!',
+  inverse: 'bg-white text-navy-900 hover:bg-blue-50 focus-visible:outline-white',
+  'outline-inverse': 'border border-white/60 text-white hover:bg-white hover:text-navy-900 focus-visible:outline-white',
+};
+
+const sizes: Record<Size, string> = {
+  sm: 'min-h-9 px-4 text-small',
+  md: 'min-h-11 px-6 text-body',
+  lg: 'min-h-13 px-8 text-lead',
+};
+
+const classes = [base, variants[variant], sizes[size], className];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} {...rest}>
+      <slot />
+      {arrow && (
+        <span aria-hidden="true" class="transition-transform duration-150 group-hover:translate-x-0.5">
+          →
+        </span>
+      )}
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...rest}>
+      <slot />
+      {arrow && (
+        <span aria-hidden="true" class="transition-transform duration-150 group-hover:translate-x-0.5">
+          →
+        </span>
+      )}
+    </button>
+  )
+}

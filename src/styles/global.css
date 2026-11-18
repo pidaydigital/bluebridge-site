@@ -1,0 +1,196 @@
+/*
+ * Blue Bridge Development — design tokens
+ *
+ * Brand values taken from the current site (bluebridgedevsc.com):
+ *   - Logo navy  #2b3990  → navy-700
+ *   - Logo grey  #6d6e71  → steel-500
+ *   - CTA blue   #0f45b6  → blue-600
+ *   - Headings: Sansation (self-hosted, OFL) · Body: Open Sans (self-hosted, OFL)
+ */
+@import "tailwindcss";
+
+/* Self-hosted fonts (bundled by Astro from npm; no third-party requests). Latin subset only. */
+@import "@fontsource/sansation/latin-400.css";
+@import "@fontsource/sansation/latin-700.css";
+
+/* Open Sans variable (Latin subset), declared directly so only the Latin file ships. */
+@font-face {
+  font-family: "Open Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url("@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  /* ---------- Fonts ---------- */
+  --font-display: "Sansation", "Trebuchet MS", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Open Sans Variable", "Open Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* ---------- Colour ---------- */
+  /* Navy: primary brand colour (logo). Use 900/950 for dark surfaces. */
+  --color-navy-50: #f0f2fa;
+  --color-navy-100: #dfe3f4;
+  --color-navy-200: #c3cae9;
+  --color-navy-300: #99a4d8;
+  --color-navy-400: #6a78c2;
+  --color-navy-500: #4655ab;
+  --color-navy-600: #34429c;
+  --color-navy-700: #2b3990; /* logo */
+  --color-navy-800: #222d75;
+  --color-navy-900: #1a2366;
+  --color-navy-950: #0e1433;
+
+  /* Blue: action colour for links, buttons and focus. */
+  --color-blue-50: #eef4ff;
+  --color-blue-100: #dbe6fe;
+  --color-blue-200: #bed2fd;
+  --color-blue-300: #91b3fa;
+  --color-blue-400: #5d8af2;
+  --color-blue-500: #3466e0;
+  --color-blue-600: #0f45b6; /* CTA */
+  --color-blue-700: #0d3a99;
+  --color-blue-800: #0f327b;
+  --color-blue-900: #122c63;
+
+  /* Steel: neutral greys, built around the logo grey. */
+  --color-steel-50: #f7f7f8;
+  --color-steel-100: #eeeef0;
+  --color-steel-200: #dcdddf;
+  --color-steel-300: #bfc0c3;
+  --color-steel-400: #96979b;
+  --color-steel-500: #6d6e71; /* logo */
+  --color-steel-600: #57585b;
+  --color-steel-700: #46474a;
+  --color-steel-800: #2f3033;
+  --color-steel-900: #1d1e20;
+
+  /* Accent: muted teal, used sparingly (renewables, highlights on navy). */
+  --color-accent-300: #a9d4d9;
+  --color-accent-400: #82c0c7;
+  --color-accent-500: #5aa5ae;
+
+  /* Semantic aliases */
+  --color-ink: var(--color-steel-900);
+  --color-muted: var(--color-steel-600);
+  --color-line: var(--color-steel-200);
+  --color-surface: #ffffff;
+  --color-surface-alt: var(--color-steel-50);
+
+  /* ---------- Type scale ----------
+   * Fluid, mobile-first sizes (min at ~360px, max at ~1280px).
+   * Display/heading sizes use the display font via the .text-* helpers below.
+   */
+  --text-display: clamp(2.5rem, 1.6rem + 4vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: clamp(2.125rem, 1.6rem + 2.4vw, 3.5rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.015em;
+
+  --text-h2: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
+
+  --text-h3: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --text-h3--line-height: 1.25;
+
+  --text-h4: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem);
+  --text-h4--line-height: 1.35;
+
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-lead--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  --text-stat: clamp(2.5rem, 2rem + 2.2vw, 3.75rem);
+  --text-stat--line-height: 1;
+  --text-stat--letter-spacing: -0.02em;
+
+  /* ---------- Shape & depth ---------- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --shadow-card: 0 1px 2px rgb(14 20 51 / 0.06), 0 4px 16px -4px rgb(14 20 51 / 0.08);
+  --shadow-card-hover: 0 2px 4px rgb(14 20 51 / 0.08), 0 16px 32px -8px rgb(14 20 51 / 0.16);
+}
+
+/* ---------- Layout utilities ---------- */
+@utility container-site {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @variant sm {
+    padding-inline: 2rem;
+  }
+  @variant lg {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility section {
+  padding-block: 4rem;
+  @variant md {
+    padding-block: 6rem;
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    color: var(--color-ink);
+    background-color: var(--color-surface);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-blue-500);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background-color: var(--color-blue-100);
+    color: var(--color-navy-950);
+  }
+}

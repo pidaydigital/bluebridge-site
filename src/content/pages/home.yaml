@@ -1,0 +1,26 @@
+title: Real Estate Development in South Carolina
+description: Blue Bridge Development is a boutique real estate development and investment firm delivering industrial, residential and renewable energy projects across the Southeastern United States.
+hero:
+  eyebrow: Real estate development & investment
+  headline: Building the foundations for growing Southern communities
+  intro: A boutique real estate development and investment firm with development experience across multiple real estate asset classes in the Southeastern United States.
+  primary:
+    label: Start a conversation
+    href: "#contact"
+  secondary:
+    label: What we do
+    href: "#what-we-do"
+sectorsSection:
+  eyebrow: What we do
+  heading: Development across three asset classes
+  intro: We work closely with local decision makers, capital partners and builders on the ground to deliver first-class developments.
+cta:
+  eyebrow: Contact us today
+  headline: Have land, a site or a project in mind?
+  body: Talk to our team about industrial, residential or renewable energy development in South Carolina and the Southeast.
+  primary:
+    label: Email us
+    href: mailto:tcox@bluebridgedevsc.com
+  secondary:
+    label: Call (864) 498-3659
+    href: tel:+18644983659

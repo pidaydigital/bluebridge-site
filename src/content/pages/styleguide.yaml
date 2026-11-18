@@ -1,0 +1,195 @@
+# Sample content for the /styleguide review page only. Nothing here is real project data.
+title: Styleguide
+description: Internal review page for the Blue Bridge Development design system.
+noindex: true
+hero:
+  eyebrow: Real estate development & investment
+  headline: Building the foundations for growing Southern communities
+  intro: Sample hero copy. A boutique real estate development and investment firm delivering industrial, residential and renewable projects across the Southeast.
+  primary:
+    label: Start a conversation
+    href: "#cta"
+  secondary:
+    label: View projects
+    href: "#projects"
+statBand:
+  heading: Sample figures — replace with verified numbers
+  stats:
+    - value: "1.2M"
+      label: Sq ft in development
+    - value: "3"
+      label: Asset classes
+    - value: "12+"
+      label: Municipal partners
+    - value: "100%"
+      label: South Carolina focused
+projects:
+  eyebrow: Selected work
+  heading: Sample project grid
+  intro: Placeholder projects and imagery used to review the grid layout.
+  items:
+    - title: Sample Industrial Park
+      summary: Speculative Class A warehouse with cross-dock loading, delivered with the county economic development team.
+      sector: Industrial
+      location: Upstate, SC
+      status: In development
+      image: ../../assets/images/placeholders/industrial.jpg
+      imageAlt: Illustration of a single-storey industrial warehouse with loading bays
+      href: "#projects"
+    - title: Sample Workforce Housing
+      summary: Attached townhomes near a new employment centre, designed with the town planning office.
+      sector: Residential
+      location: Midlands, SC
+      status: Planning
+      image: ../../assets/images/placeholders/residential.jpg
+      imageAlt: Illustration of a row of four pitched-roof townhomes
+    - title: Sample Solar Array
+      summary: Ground-mounted solar paired with an industrial tenant's on-site energy demand.
+      sector: Renewable Energy
+      location: Pee Dee, SC
+      status: Completed
+      image: ../../assets/images/placeholders/renewable.jpg
+      imageAlt: Illustration of rows of ground-mounted solar panels
+process:
+  eyebrow: How we work
+  heading: From site to stabilised asset
+  intro: Sample process steps showing the ProcessSteps section.
+  steps:
+    - title: Identify
+      body: We work with landowners and municipalities to find sites that fit regional demand.
+    - title: Acquire & entitle
+      body: Land acquisition, zoning, permitting and incentive negotiations handled in-house.
+    - title: Design & build
+      body: Custom facilities designed with tenants and delivered with trusted local builders.
+    - title: Operate & invest
+      body: Long-term stewardship focused on attractive, risk-adjusted returns for investors.
+faq:
+  eyebrow: FAQ
+  heading: Frequently asked questions
+  intro: Sample questions to review the FAQ accordion.
+  items:
+    - question: What types of projects does Blue Bridge Development take on?
+      answer: Industrial buildings, workforce and market-rate housing, and renewable energy projects, primarily in small and rural towns in South Carolina.
+    - question: Do you work with landowners?
+      answer: Yes. We partner with local landowners to evaluate and acquire land suitable for development.
+    - question: How can municipalities partner with you?
+      answer: We work closely with towns, counties and economic development groups to plan projects that serve both tenants and the local community.
+cta:
+  eyebrow: Contact us today
+  headline: Have land, a site or a project in mind?
+  body: Sample CTA copy. Talk to our team about development in South Carolina and the Southeast.
+  primary:
+    label: Email us
+    href: "#cta"
+  secondary:
+    label: Call (864) 498-3659
+    href: "#cta"
+samples:
+  intro: Every component in the Blue Bridge Development design system, shown with sample content for review. This page is not indexed by search engines.
+  sections:
+    colors: Colour
+    type: Type scale
+    buttons: Buttons
+    badges: Badges
+    cards: Cards
+    stats: Stats
+    logo: Logo
+    sectionsHeading: Sections
+  buttons:
+    primary: Primary action
+    secondary: Secondary
+    ghost: Text link
+    inverse: On dark
+    outlineInverse: Outline on dark
+    small: Small
+    large: Large button
+    submit: Form submit
+  badges:
+    - label: Industrial
+      tone: brand
+    - label: In development
+      tone: neutral
+    - label: Renewable Energy
+      tone: accent
+    - label: Planning
+      tone: outline
+    - label: On dark
+      tone: inverse
+  stats:
+    - value: "1.2M"
+      label: Sq ft in development
+      description: Sample figure across active industrial projects.
+    - value: "3"
+      label: Asset classes
+      description: Industrial, residential and renewable energy.
+  cards:
+    - eyebrow: Industrial
+      title: Card with image and link
+      body: Cards can carry an image, eyebrow, title, body copy and a link. The whole card is clickable.
+      href: "#cards"
+      linkLabel: Learn more
+      image: ../../assets/images/placeholders/industrial.jpg
+      imageAlt: Illustration of a single-storey industrial warehouse with loading bays
+    - eyebrow: Residential
+      title: Text-only card
+      body: Without an image the card becomes a simple bordered panel, useful for sectors and services.
+    - title: Card without eyebrow
+      body: The minimum card is a title and body. Use the slot for custom content when needed.
+      href: "#cards"
+      linkLabel: Read more
+  colors:
+    - name: Navy 950
+      token: navy-950
+      note: Deepest surface, footer
+    - name: Navy 900
+      token: navy-900
+      note: Dark sections, stat band
+    - name: Navy 700
+      token: navy-700
+      note: Logo navy, headings
+    - name: Blue 600
+      token: blue-600
+      note: Primary action
+    - name: Blue 50
+      token: blue-50
+      note: Tinted backgrounds
+    - name: Steel 500
+      token: steel-500
+      note: Logo grey
+    - name: Steel 600
+      token: steel-600
+      note: Muted body text
+    - name: Steel 50
+      token: steel-50
+      note: Alternate surface
+    - name: Accent 400
+      token: accent-400
+      note: Sparing highlight on navy
+  type:
+    - token: display
+      note: Sansation Bold · hero headlines
+      sample: Building Southern communities
+    - token: h1
+      note: Sansation Bold · page titles
+      sample: Industrial development
+    - token: h2
+      note: Sansation Bold · section headings
+      sample: Development across three asset classes
+    - token: h3
+      note: Sansation Bold · card and block titles
+      sample: Workforce housing that fits
+    - token: h4
+      note: Sansation Bold · small headings
+      sample: Renewable energy partners
+    - token: lead
+      note: Open Sans · intro paragraphs
+      sample: We work closely with local decision makers, capital partners and builders on the ground.
+    - token: body
+      note: Open Sans · body copy
+      sample: Blue Bridge Development holds strongly to its three pillars of integrity, innovation and impact.
+    - token: small
+      note: Open Sans · captions and meta
+      sample: Upstate, South Carolina · In development
+    - token: eyebrow
+      note: Open Sans Bold · uppercase labels
+      sample: Real estate development

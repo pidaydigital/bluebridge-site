@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import logo from '../../assets/images/brand/logo-blue.svg';
+import Button from '../ui/Button.astro';
+
+const site = (await getEntry('settings', 'site'))!.data;
+const current = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+  <div class="container-site flex h-16 items-center justify-between gap-6 md:h-20">
+    <a href="/" class="shrink-0" aria-label={`${site.siteName} — home`}>
+      <Image src={logo} alt={site.logoAlt} width={273} height={120} loading="eager" class="h-10 w-auto md:h-12" />
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex items-center gap-8" role="list">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={item.href === current ? 'page' : undefined}
+                class="text-small font-semibold text-steel-700 transition-colors hover:text-blue-600 aria-[current=page]:text-blue-600"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hidden items-center gap-5 md:flex">
+      <a href={site.phoneHref} class="text-small font-semibold text-navy-700 hover:text-blue-600">{site.phone}</a>
+      <Button href={site.headerCta.href} size="sm">{site.headerCta.label}</Button>
+    </div>
+
+    <!-- Mobile navigation: native <details>, no JavaScript -->
+    <details class="group md:hidden [&_summary::-webkit-details-marker]:hidden">
+      <summary
+        class="-mr-2 flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md text-navy-900 hover:bg-steel-100"
+      >
+        <span class="sr-only">{site.menuLabel}</span>
+        <svg aria-hidden="true" class="h-6 w-6 group-open:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+        <svg aria-hidden="true" class="hidden h-6 w-6 group-open:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </summary>
+      <div class="absolute inset-x-0 top-full border-b border-line bg-white shadow-card">
+        <nav aria-label="Mobile" class="container-site py-4">
+          <ul class="flex flex-col" role="list">
+            {
+              site.nav.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="block border-b border-steel-100 py-4 font-display text-h4 font-bold text-navy-900 hover:text-blue-600"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="flex flex-col gap-3 py-6">
+            <Button href={site.headerCta.href}>{site.headerCta.label}</Button>
+            <Button href={site.phoneHref} variant="secondary">{site.phone}</Button>
+          </div>
+        </nav>
+      </div>
+    </details>
+  </div>
+</header>

@@ -1,0 +1,24 @@
+# Site-wide settings. The single `site` entry is read by BaseLayout, Header, Footer and SEO.
+site:
+  siteName: Blue Bridge Development
+  tagline: Developing industrial, residential and renewable projects across the Southeast.
+  description: A boutique real estate development and investment firm with development experience across multiple real estate asset classes in the Southeastern United States.
+  region: South Carolina
+  phone: (864) 498-3659
+  phoneHref: tel:+18644983659
+  email: tcox@bluebridgedevsc.com
+  logoAlt: Blue Bridge Development
+  # Nav targets mirror the current single-page site; update as new pages are added.
+  nav:
+    - label: What We Do
+      href: /#what-we-do
+    - label: Contact
+      href: /#contact
+  headerCta:
+    label: Contact Us
+    href: /#contact
+  footerBlurb: A vertically integrated real estate development and investment company working with landowners, municipalities and capital partners to deliver first-class developments.
+  footerLinksHeading: Company
+  footerContactHeading: Get in touch
+  skipLinkLabel: Skip to content
+  menuLabel: Menu
