@@ -1,0 +1,11 @@
+# Site-wide settings and copy. Each top-level key is an entry in the `settings` collection.
+site:
+  siteName: Blue Bridge Development
+  tagline: Placeholder tagline
+  description: Blue Bridge Development — placeholder site description.
+
+home:
+  siteName: Blue Bridge Development
+  description: Blue Bridge Development — placeholder home page description.
+  headline: Blue Bridge Development
+  intro: Site coming soon. This is placeholder copy — replace it in src/content/settings.yaml.

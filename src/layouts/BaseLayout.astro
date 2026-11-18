@@ -1,0 +1,33 @@
+---
+import { getEntry } from 'astro:content';
+import SEO from '../components/seo/SEO.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const site = await getEntry('settings', 'site');
+if (!site) throw new Error('Missing "site" entry in src/content/settings.yaml');
+
+const { title, description = site.data.description, image, noindex } = Astro.props;
+const fullTitle = title ? `${title} | ${site.data.siteName}` : site.data.siteName;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO title={fullTitle} description={description} image={image} noindex={noindex} />
+  </head>
+  <body class="min-h-screen bg-white text-slate-900 antialiased">
+    <slot />
+  </body>
+</html>
