@@ -8,7 +8,7 @@ const site = (await getEntry('settings', 'site'))!.data;
 const current = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+<header class="header-scroll sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
   <div class="container-site flex h-16 items-center justify-between gap-6 md:h-20">
     <a href="/" class="shrink-0" aria-label={`${site.siteName} — home`}>
       <Image src={logo} alt={site.logoAlt} width={273} height={120} loading="eager" class="h-10 w-auto md:h-12" />
@@ -22,7 +22,7 @@ const current = Astro.url.pathname;
             <li>
               <a
                 href={item.href}
-                aria-current={item.href === current ? 'page' : undefined}
+                aria-current={item.href.replace(/\/$/, '') === current.replace(/\/$/, '') ? 'page' : undefined}
                 class="text-small font-semibold text-steel-700 transition-colors hover:text-blue-600 aria-[current=page]:text-blue-600"
               >
                 {item.label}

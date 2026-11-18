@@ -155,6 +155,25 @@
   text-transform: uppercase;
 }
 
+/* Sticky header: fades in a shadow once the page scrolls (CSS scroll-driven animation, no JS).
+ * Browsers without support simply keep the border. */
+@keyframes header-shadow {
+  to {
+    box-shadow: 0 4px 20px -6px rgb(14 20 51 / 0.18);
+  }
+}
+@supports (animation-timeline: scroll()) {
+  .header-scroll {
+    /* Longhands only: the minifier would otherwise fold the timeline into the
+     * `animation` shorthand, which browsers reject. */
+    animation-name: header-shadow;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root);
+    animation-range: 0 80px;
+  }
+}
+
 /* ---------- Base ---------- */
 @layer base {
   html {
