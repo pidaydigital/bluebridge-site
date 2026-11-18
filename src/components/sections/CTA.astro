@@ -1,0 +1,49 @@
+---
+import Button from '../ui/Button.astro';
+
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  headline: string;
+  primary: Link;
+  secondary?: Link;
+  eyebrow?: string;
+  body?: string;
+  id?: string;
+}
+
+const { headline, primary, secondary, eyebrow, body, id } = Astro.props;
+const headingId = id ? `${id}-heading` : undefined;
+---
+
+<section id={id} class="section bg-white" aria-labelledby={headingId}>
+  <div class="container-site">
+    <div
+      class="relative overflow-hidden rounded-lg bg-navy-900 px-6 py-12 text-white sm:px-12 sm:py-16 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-16"
+    >
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full border-[40px] border-navy-700/60"
+      >
+      </div>
+      <div class="relative max-w-2xl">
+        {eyebrow && <p class="eyebrow mb-4 text-accent-400">{eyebrow}</p>}
+        <h2 id={headingId} class="text-h2 text-white">{headline}</h2>
+        {body && <p class="mt-4 text-lead text-navy-100">{body}</p>}
+      </div>
+      <div class="relative mt-8 flex flex-col gap-3 sm:flex-row lg:mt-0 lg:shrink-0 lg:flex-col xl:flex-row">
+        <Button href={primary.href} variant="inverse" size="lg" arrow>{primary.label}</Button>
+        {
+          secondary && (
+            <Button href={secondary.href} variant="outline-inverse" size="lg">
+              {secondary.label}
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

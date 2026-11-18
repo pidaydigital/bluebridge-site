@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import logo from '../../assets/images/brand/logo-white.svg';
+
+const site = (await getEntry('settings', 'site'))!.data;
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-950 text-navy-100">
+  <div class="container-site grid gap-12 py-14 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-20">
+    <div class="max-w-sm">
+      <a href="/" aria-label={`${site.siteName} — home`} class="inline-block">
+        <Image src={logo} alt={site.logoAlt} width={256} height={113} class="h-12 w-auto" />
+      </a>
+      <p class="mt-6 text-small">{site.footerBlurb}</p>
+    </div>
+
+    <nav aria-labelledby="footer-links-heading">
+      <h2 id="footer-links-heading" class="eyebrow font-sans text-white">{site.footerLinksHeading}</h2>
+      <ul class="mt-5 space-y-3" role="list">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={item.href} class="text-small hover:text-white">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="eyebrow font-sans text-white">{site.footerContactHeading}</h2>
+      <ul class="mt-5 space-y-3 text-small" role="list">
+        <li><a href={site.phoneHref} class="hover:text-white">{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`} class="break-all hover:text-white">{site.email}</a></li>
+        <li>{site.region}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container-site py-6 text-[0.8125rem] text-navy-300">
+      <p>&copy; {year} {site.siteName}</p>
+    </div>
+  </div>
+</footer>

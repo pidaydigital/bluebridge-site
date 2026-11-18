@@ -11,7 +11,10 @@ export default defineConfig({
   // `export const prerender = false`. The Vercel adapter handles any opt-outs and Actions.
   output: 'static',
   adapter: vercel(),
-  integrations: [sitemap()],
+  integrations: [
+    // Internal review pages are excluded from the sitemap.
+    sitemap({ filter: (page) => !page.includes('/styleguide') }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

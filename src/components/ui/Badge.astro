@@ -1,0 +1,28 @@
+---
+type Tone = 'neutral' | 'brand' | 'accent' | 'outline' | 'inverse';
+
+interface Props {
+  tone?: Tone;
+  class?: string;
+}
+
+const { tone = 'neutral', class: className } = Astro.props;
+
+const tones: Record<Tone, string> = {
+  neutral: 'bg-steel-100 text-steel-700',
+  brand: 'bg-blue-50 text-blue-700',
+  accent: 'bg-accent-300/40 text-navy-900',
+  outline: 'border border-steel-300 text-steel-700',
+  inverse: 'bg-white/10 text-white ring-1 ring-inset ring-white/25',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-sm px-2.5 py-1 text-[0.75rem] leading-none font-semibold tracking-wide uppercase',
+    tones[tone],
+    className,
+  ]}
+>
+  <slot />
+</span>

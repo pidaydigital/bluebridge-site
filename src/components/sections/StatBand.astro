@@ -1,0 +1,19 @@
+---
+import Stat from '../ui/Stat.astro';
+
+interface Props {
+  stats: { value: string; label: string; description?: string }[];
+  heading?: string;
+}
+
+const { stats, heading } = Astro.props;
+---
+
+<section class="bg-navy-900 py-14 text-white md:py-20" aria-label={heading ?? 'Key figures'}>
+  <div class="container-site">
+    {heading && <h2 class="eyebrow mb-10 text-navy-200">{heading}</h2>}
+    <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+      {stats.map((s) => <Stat {...s} tone="dark" />)}
+    </div>
+  </div>
+</section>
