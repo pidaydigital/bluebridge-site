@@ -10,9 +10,7 @@ summary: >-
   [County] County, with Class A warehouse and flex buildings from [##,###] to
   [###,###] square feet, delivered by our in-house general contractor.
 heroImage: ../../assets/images/projects/industrial-park/heroImage.jpg
-heroImageAlt: >-
-  Placeholder illustration of an industrial warehouse; replace with an aerial
-  photo of the park
+heroImageAlt: 'Placeholder for the hero photo: aerial view of the industrial park'
 hero:
   primaryLabel: Request the site package
   secondaryLabel: See available buildings
