@@ -22,20 +22,49 @@ the change.
 
 ## Turn on editing on the live site (GitHub mode)
 
-In GitHub mode, `https://<your domain>/keystatic` opens the editor on the live site. Every save
-becomes a commit on `main`, and Vercel redeploys automatically.
+In GitHub mode, `https://<your domain>/keystatic` opens the editor on the live site. You sign in
+with GitHub, and every save becomes a commit on `main`, which Vercel publishes automatically.
+Anyone with write access to the repository can edit.
 
-1. **Create the GitHub App.** Locally, run `PUBLIC_KEYSTATIC_STORAGE=github npm run dev` and open
-   http://localhost:4321/keystatic. Keystatic walks you through creating a GitHub App for
-   `pidaydigital/bluebridge-site` and writes its keys to a local `.env` file. Never commit that file.
-2. **Allow the live site to sign in.** In the GitHub App's settings, add the callback URL
-   `https://<your domain>/api/keystatic/github/oauth/callback`. Add one for the `vercel.app`
-   address too, if you'll edit there.
-3. **Add the keys to Vercel.** In Project → Settings → Environment Variables, add:
-   - `PUBLIC_KEYSTATIC_STORAGE` = `github`
-   - `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET` and
-     `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`, copied from the `.env` file in step 1.
-4. **Redeploy.** Editors need write access to the GitHub repository.
+### 1. Create the GitHub App
+
+Go to GitHub → Settings → Developer settings → GitHub Apps → **New GitHub App**:
+
+- **GitHub App name**: e.g. `Blue Bridge Keystatic`. It must be unique on GitHub.
+- **Homepage URL**: `https://bluebridge-site.vercel.app/keystatic`
+- **Callback URL**: `https://bluebridge-site.vercel.app/api/keystatic/github/oauth/callback`.
+  Add one for each address you will edit from, such as your custom domain later.
+- **Request user authorization (OAuth) during installation**: ticked.
+- **Webhook → Active**: unticked.
+- **Repository permissions**: Contents **Read and write**, Pull requests **Read-only**
+  (Metadata read-only is set automatically).
+- **Where can this GitHub App be installed?**: Only on this account.
+
+Click **Create GitHub App**. Then, on the app's page:
+
+- Note the **Client ID**, and the app's **slug**: the last part of its public URL,
+  `github.com/apps/<slug>`.
+- Click **Generate a new client secret** and copy it straight away (GitHub shows it only once).
+- Under **Install App**, install it on `pidaydigital/bluebridge-site` only.
+
+### 2. Add the keys to Vercel
+
+In Vercel → the project → Settings → Environment Variables, add these for **Production**:
+
+| Name | Value |
+| --- | --- |
+| `PUBLIC_KEYSTATIC_STORAGE` | `github` |
+| `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | the app's slug |
+| `KEYSTATIC_GITHUB_CLIENT_ID` | the Client ID |
+| `KEYSTATIC_GITHUB_CLIENT_SECRET` | the client secret |
+| `KEYSTATIC_SECRET` | any random string of 32+ characters, e.g. from a password generator |
+
+Never put the secrets in the code or in chat.
+
+### 3. Redeploy
+
+Vercel → Deployments → the latest production deployment → **Redeploy**. Then open
+`https://bluebridge-site.vercel.app/keystatic`, sign in with GitHub and authorize the app.
 
 Without `PUBLIC_KEYSTATIC_STORAGE=github`, production builds leave the editor out entirely, so the
 public site stays fully static.
