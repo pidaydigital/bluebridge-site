@@ -21,7 +21,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     // Internal pages are excluded from the sitemap.
-    sitemap({ filter: (page) => !page.includes('/styleguide') && !page.includes('/keystatic') }),
+    sitemap({ filter: (page) => !/\/(styleguide|sitemap|keystatic)(\/|$)/.test(new URL(page).pathname) }),
     ...(withKeystatic ? [react(), keystatic()] : []),
   ],
   vite: {

@@ -1,0 +1,76 @@
+# Planned site structure, from the signed proposal (Website Strategy & Redesign Proposal,
+# November 11, 2026, page 4). Phases follow the proposal's Investment page.
+# `href` marks a page that is built; leave it out for pages still to come.
+title: Sitemap
+description: The planned structure of the Blue Bridge Development website, with each page's launch phase.
+noindex: true
+sitemap:
+  eyebrow: Site structure
+  heading: Sitemap
+  intro: The pages we are building, from the signed proposal. Phase 1 launches the pages that matter most to capital partners and tenants; Phase 2 builds out the rest as photos and project details become available.
+  source: 'Source: Website Strategy & Redesign Proposal, November 11, 2026.'
+  phase1: Phase 1
+  phase2: Phase 2
+  live: Built
+  totals: 22 pages · 4 repeatable templates
+  legendHeading: Key
+  legendPhase1: Launch the core
+  legendPhase2: Build out after launch
+  legendLive: Page exists on this site; tap to open it
+  home:
+    title: Home
+    phase: 1
+    href: /
+  sections:
+    - title: About
+      phase: 1
+      pages:
+        - title: Our Process & Model
+          note: Developer + in-house GC
+          phase: 1
+    - title: What We Do
+      note: 'Single page: Build-to-Suit & Fee Development, Land & Site Development, Design-Build / General Contracting'
+      phase: 1
+    - title: Sectors
+      phase: 1
+      pages:
+        - title: Medical Office
+          phase: 1
+        - title: Retail & Mixed-Use
+          phase: 1
+        - title: Multifamily
+          phase: 1
+        - title: Industrial & Flex
+          phase: 2
+        - title: Residential Community Development
+          phase: 2
+    - title: Projects
+      phase: 1
+      href: /projects
+      pages:
+        - title: Prisma Health Medical Office
+          phase: 1
+        - title: Mixed-Use Retail + Multifamily
+          phase: 2
+        - title: '[Sold Neighborhood]'
+          phase: 2
+        - title: '[Industrial Project]'
+          note: Template built with placeholder content
+          phase: 2
+          href: /projects/industrial-park
+    - title: Partner With Us
+      phase: 1
+      pages:
+        - title: Investors & Capital Partners
+          phase: 1
+        - title: Tenants & Businesses
+          phase: 1
+        - title: Landowners
+          phase: 2
+        - title: Municipalities & Economic Development
+          phase: 2
+    - title: Where We Build
+      note: 'Single page: Upstate South Carolina / Greenville'
+      phase: 1
+    - title: Contact
+      phase: 1

@@ -18,6 +18,8 @@ site:
       href: /#contact
     - label: Styleguide
       href: /styleguide
+    - label: Sitemap
+      href: /sitemap
   headerCta:
     label: Contact Us
     href: /#contact

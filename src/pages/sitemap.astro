@@ -1,0 +1,29 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SitemapTree from '../components/sections/SitemapTree.astro';
+
+const page = (await getEntry('pages', 'sitemap'))!.data;
+const sm = page.sitemap!;
+---
+
+<BaseLayout title={page.title} description={page.description} noindex={page.noindex}>
+  <SitemapTree
+    eyebrow={sm.eyebrow}
+    heading={sm.heading}
+    intro={sm.intro}
+    source={sm.source}
+    totals={sm.totals}
+    home={sm.home}
+    sections={sm.sections}
+    labels={{
+      phase1: sm.phase1,
+      phase2: sm.phase2,
+      live: sm.live,
+      legendHeading: sm.legendHeading,
+      legendPhase1: sm.legendPhase1,
+      legendPhase2: sm.legendPhase2,
+      legendLive: sm.legendLive,
+    }}
+  />
+</BaseLayout>

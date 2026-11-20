@@ -225,6 +225,14 @@ const settings = defineCollection({
   }),
 });
 
+const sitemapPage = z.object({
+  title: z.string(),
+  note: z.string().optional(),
+  phase: z.union([z.literal(1), z.literal(2)]),
+  /** Set once the page is built. */
+  href: z.string().optional(),
+});
+
 /** Per-page copy. Each optional block maps to a section component. */
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/pages' }),
@@ -256,6 +264,25 @@ const pages = defineCollection({
       process: z.object({ ...sectionIntro, steps: z.array(step) }).optional(),
       faq: z.object({ ...sectionIntro, items: z.array(faqItem) }).optional(),
       cta: cta.optional(),
+      /** The planned site structure; only on pages/sitemap.yaml. */
+      sitemap: z
+        .object({
+          eyebrow: z.string(),
+          heading: z.string(),
+          intro: z.string(),
+          source: z.string(),
+          phase1: z.string(),
+          phase2: z.string(),
+          live: z.string(),
+          totals: z.string(),
+          legendHeading: z.string(),
+          legendPhase1: z.string(),
+          legendPhase2: z.string(),
+          legendLive: z.string(),
+          home: sitemapPage,
+          sections: z.array(sitemapPage.extend({ pages: z.array(sitemapPage).default([]) })),
+        })
+        .optional(),
       /** Shared project-page labels; only on pages/projects.yaml. */
       projectLabels: projectLabels.optional(),
       /** Free-form sample copy used only by the /styleguide page. */

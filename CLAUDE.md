@@ -37,9 +37,11 @@ Astro 7 + TypeScript (strict) + Tailwind CSS 4, deployed to Vercel via `@astrojs
   Use these rather than arbitrary sizes. Layout helpers: `container-site`, `section`.
 - Build with the existing components (`ui/`: Button, Card, Stat, Badge, SectionHeading; `sections/`: Hero,
   StatBand, ProjectGrid, ProcessSteps, CTA, FAQ, plus the project sections KeyFacts, ProjectOverview,
-  BuildingAvailability, LocationAccess and Gallery) before creating new ones. Add any new component to `/styleguide`.
+  BuildingAvailability, LocationAccess, Gallery, and SitemapTree) before creating new ones. Add any new component to `/styleguide`.
 - Design mobile-first: base styles target phones, then layer `sm:`/`md:`/`lg:` overrides.
-- `/styleguide` is an internal review page: `noindex` and excluded from the sitemap.
+- `/styleguide` and `/sitemap` (the planned page structure from the proposal, in `src/content/pages/sitemap.yaml`)
+  are internal review pages: `noindex` and excluded from the XML sitemap. When a planned page is built, add its
+  `href` in `sitemap.yaml` so it shows as built.
 
 ## Rules
 

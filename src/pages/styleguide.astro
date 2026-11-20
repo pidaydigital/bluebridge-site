@@ -20,6 +20,7 @@ import LocationAccess from '../components/sections/LocationAccess.astro';
 import Gallery from '../components/sections/Gallery.astro';
 import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import FactList from '../components/ui/FactList.astro';
+import SitemapTree from '../components/sections/SitemapTree.astro';
 import { buildingStatus, getProjectLabels, getSortedProjects, paragraphs } from '../lib/projects';
 import logoBlue from '../assets/images/brand/logo-blue.svg';
 import logoWhite from '../assets/images/brand/logo-white.svg';
@@ -33,6 +34,7 @@ const site = (await getEntry('settings', 'site'))!.data;
 const project = (await getSortedProjects())[0];
 const pl = await getProjectLabels();
 const pd = project?.data;
+const sm = (await getEntry('pages', 'sitemap'))?.data.sitemap;
 const pBuildings = pd ? pd.buildings.map((b) => ({ ...b, status: buildingStatus(b.status, pl) })) : [];
 
 // Static class map so Tailwind can see every class used for the type samples.
@@ -307,6 +309,23 @@ const label = 'mb-3 font-mono text-[0.75rem] text-steel-500';
           <ProcessSteps id="sg-role" eyebrow={pd.process.eyebrow} heading={pd.process.heading} intro={pd.process.intro} steps={pd.process.steps} variant="cards" background="blueprint" />
           <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">Gallery</p>
           <Gallery id="sg-gallery" eyebrow={pd.gallery.eyebrow} heading={pd.gallery.heading} note={pd.gallery.updated} items={pd.gallery.items} />
+        </>
+      )
+    }
+
+    {
+      sm && (
+        <>
+          <p class="container-site pt-10 pb-3 font-mono text-[0.75rem] text-steel-500">SitemapTree · content from src/content/pages/sitemap.yaml</p>
+          <SitemapTree
+            id="sg-sitemap"
+            eyebrow={sm.eyebrow}
+            heading={sm.heading}
+            totals={sm.totals}
+            home={sm.home}
+            sections={sm.sections.slice(0, 4)}
+            labels={{ phase1: sm.phase1, phase2: sm.phase2, live: sm.live, legendHeading: sm.legendHeading, legendPhase1: sm.legendPhase1, legendPhase2: sm.legendPhase2, legendLive: sm.legendLive }}
+          />
         </>
       )
     }

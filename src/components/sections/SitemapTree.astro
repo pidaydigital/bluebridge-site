@@ -1,0 +1,118 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import Badge from '../ui/Badge.astro';
+
+/**
+ * SitemapTree: the planned page structure. Home on top, then one card per section with its
+ * child pages. Each page shows its launch phase, and links when it is built (`href`).
+ */
+interface Page {
+  title: string;
+  note?: string;
+  phase: 1 | 2;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  source?: string;
+  totals?: string;
+  home: Page;
+  sections: (Page & { pages: Page[] })[];
+  labels: {
+    phase1: string;
+    phase2: string;
+    live: string;
+    legendHeading: string;
+    legendPhase1: string;
+    legendPhase2: string;
+    legendLive: string;
+  };
+  id?: string;
+}
+
+const { eyebrow, heading, intro, source, totals, home, sections, labels, id = 'sitemap' } = Astro.props;
+const headingId = `${id}-heading`;
+const phaseBadge = (phase: 1 | 2) =>
+  phase === 1 ? { tone: 'brand' as const, label: labels.phase1 } : { tone: 'outline' as const, label: labels.phase2 };
+---
+
+<section id={id} class="section bg-surface-alt" aria-labelledby={headingId}>
+  <div class="container-site">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading heading={heading} eyebrow={eyebrow} intro={intro} id={headingId} />
+      {totals && <p class="eyebrow text-steel-600">{totals}</p>}
+    </div>
+
+    <dl class="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-small text-muted" aria-label={labels.legendHeading}>
+      <div class="flex items-center gap-2"><dt><Badge tone="brand">{labels.phase1}</Badge></dt><dd>{labels.legendPhase1}</dd></div>
+      <div class="flex items-center gap-2"><dt><Badge tone="outline">{labels.phase2}</Badge></dt><dd>{labels.legendPhase2}</dd></div>
+      <div class="flex items-center gap-2"><dt><Badge tone="highlight">{labels.live}</Badge></dt><dd>{labels.legendLive}</dd></div>
+    </dl>
+
+    <!-- Home: the root of the tree -->
+    <div class="mt-10 flex flex-col items-center">
+      <div class="flex w-full max-w-sm flex-col items-center gap-3 rounded-lg bg-navy-900 px-6 py-5 text-center text-white">
+        {
+          home.href ? (
+            <a href={home.href} class="font-display text-h4 font-bold underline-offset-4 hover:underline">{home.title}</a>
+          ) : (
+            <span class="font-display text-h4 font-bold">{home.title}</span>
+          )
+        }
+        <div class="flex flex-wrap justify-center gap-2">
+          <Badge tone="inverse">{phaseBadge(home.phase).label}</Badge>
+          {home.href && <Badge tone="highlight">{labels.live}</Badge>}
+        </div>
+      </div>
+      <div aria-hidden="true" class="h-8 w-0.5 bg-navy-300"></div>
+    </div>
+
+    <ul class="grid items-start gap-6 border-t-2 border-navy-300 pt-8 sm:grid-cols-2 lg:grid-cols-4" role="list">
+      {
+        sections.map((s) => (
+          <li class="flex flex-col rounded-lg border border-line bg-white shadow-card">
+            <div class:list={['p-5', s.pages.length > 0 && 'border-b border-line']}>
+              <h3 class="text-h4 text-navy-900">
+                {s.href ? (
+                  <a href={s.href} class="underline-offset-4 hover:text-blue-600 hover:underline">{s.title}</a>
+                ) : (
+                  s.title
+                )}
+              </h3>
+              {s.note && <p class="mt-1 text-small text-muted">{s.note}</p>}
+              <div class="mt-3 flex flex-wrap gap-2">
+                <Badge tone={phaseBadge(s.phase).tone}>{phaseBadge(s.phase).label}</Badge>
+                {s.href && <Badge tone="highlight">{labels.live}</Badge>}
+              </div>
+            </div>
+            {s.pages.length > 0 && (
+              <ul class="divide-y divide-steel-100 px-5" role="list">
+                {s.pages.map((p) => (
+                  <li class="flex items-start justify-between gap-3 py-3">
+                    <div class="min-w-0">
+                      {p.href ? (
+                        <a href={p.href} class="font-semibold text-blue-600 underline-offset-4 hover:underline">{p.title}</a>
+                      ) : (
+                        <span class="font-semibold text-ink">{p.title}</span>
+                      )}
+                      {p.note && <p class="text-small text-muted">{p.note}</p>}
+                    </div>
+                    <div class="flex shrink-0 flex-col items-end gap-1.5">
+                      <Badge tone={phaseBadge(p.phase).tone}>{phaseBadge(p.phase).label}</Badge>
+                      {p.href && <Badge tone="highlight">{labels.live}</Badge>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    {source && <p class="mt-8 text-small text-steel-500">{source}</p>}
+  </div>
+</section>
