@@ -34,16 +34,15 @@ sitemap:
     - title: Sectors
       phase: 1
       pages:
-        # Sectors confirmed Nov 2026. Phases follow the proposal; Hospitality is a newly confirmed
-        # sector, which the proposal places in Phase 2 ("any additional confirmed sectors").
+        # Sectors confirmed Nov 2026; all five launch in Phase 1.
         - title: Medical
           phase: 1
         - title: Industrial
-          phase: 2
+          phase: 1
         - title: Residential
-          phase: 2
+          phase: 1
         - title: Hospitality
-          phase: 2
+          phase: 1
         - title: Retail
           phase: 1
     - title: Projects
